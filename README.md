@@ -3,7 +3,7 @@ Aplicação SpringBoot standalone que simula a integração e processamento de c
 
 ## Setup
 ### Requerimentos
-* Java 14 ou superior
+* Java 11 ou superior
 * Maven 3.6.3 ou superior
 * OpenCsv 5.0 ou superior
 
