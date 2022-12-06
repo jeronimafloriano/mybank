@@ -1,11 +1,11 @@
 # mybank
-Aplicação  SprintBoot standalone que simula a integração e processamento de contas enviadas via arquivo .csv para um banco fictício("My Bank") utilizando Java, Spring e MongoDB.
+Aplicação SpringBoot standalone que simula a integração e processamento de contas para Receita Federal, enviadas via arquivo .csv integrando com um banco fictício ("My Bank") utilizando Java, Spring e MongoDB.
 
 ## Setup
 ### Requerimentos
 * Java 14 ou superior
 * Maven 3.6.3 ou superior
-* OpenCsv
+* OpenCsv 5.0 ou superior
 
 ## Funcionamento:
 
