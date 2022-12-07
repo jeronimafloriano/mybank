@@ -1,4 +1,4 @@
-package br.com.mybank.config.utils;
+package br.com.mybank.config;
 
 import com.opencsv.bean.AbstractBeanField;
 

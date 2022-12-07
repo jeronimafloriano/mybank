@@ -1,57 +1,21 @@
 package br.com.mybank.service;
 
 import br.com.mybank.model.Conta;
-import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.springframework.stereotype.Service;
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ReceitaService {
 
-
-    private final static String ARQUIVO_ENTRADA =  "src/main/resources/documents/contas.csv";
-    private final static String ARQUIVO_SAIDA =  "src/main/resources/documents/saida.csv";
-
-    public static void lerContas() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
-
-        List<Conta> contas = new CsvToBeanBuilder(new FileReader(ARQUIVO_ENTRADA))
-                .withSeparator(';')
-                .withType(Conta.class)
-                .build()
-                .parse();
-
-
-        processarContas(contas);
-        retornarArquivoProcessado(contas);
-
-    }
-
-
-    private static void processarContas(List<Conta> contas){
-        contas.forEach(conta -> {
-            boolean resultado = atualizarConta(conta);
-            conta.setProcessado(resultado);
-        });
-    }
-
-    private static boolean atualizarConta(Conta conta){
+    public static boolean atualizarConta(Conta conta){
         // Formato agencia: 0000
         if (conta.getAgencia() == null || conta.getAgencia().length() != 4) {
             return false;
         }
 
         // Formato conta: 000000
-        if (conta.getNumeroConta()== null || conta.getNumeroConta().length() != 6) {
+        if (conta.getNumero()== null || conta.getNumero().length() != 6) {
             return false;
         }
 
@@ -84,17 +48,4 @@ public class ReceitaService {
     }
 
 
-    public static void retornarArquivoProcessado(List<Conta> contas) throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
-        Writer writer = new FileWriter(ARQUIVO_SAIDA);
-
-        StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
-                .withSeparator(';')
-                .withApplyQuotesToAll(false)
-                .withOrderedResults(true)
-                .build();
-
-        beanToCsv.write(contas);
-        writer.close();
-
-    }
 }

@@ -1,17 +1,20 @@
 package br.com.mybank.model;
 
-import br.com.mybank.config.utils.FormatarConta;
-import br.com.mybank.config.utils.FormatarSaldo;
+import br.com.mybank.config.FormatarConta;
+import br.com.mybank.config.FormatarSaldo;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
 
+@Document(collection = "contas")
 public class Conta {
 
     @CsvBindByName(column = "agencia")
     private String agencia;
     @CsvCustomBindByName(column = "conta", converter = FormatarConta.class)
-    private String numeroConta;
+    private String numero;
 
     @CsvBindByName(column = "status")
     private String status;
@@ -23,7 +26,7 @@ public class Conta {
 
     public Conta(String agencia, String numeroConta, double saldo, String status){
         this.agencia = agencia;
-        this.numeroConta = numeroConta;
+        this.numero = numeroConta;
         this.saldo = saldo;
         this.status = status;
     }
@@ -47,12 +50,12 @@ public class Conta {
         this.agencia = agencia;
     }
 
-    public String getNumeroConta() {
-        return numeroConta;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setNumeroConta(String numeroConta) {
-        this.numeroConta = numeroConta;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
     public double getSaldo() {
@@ -74,8 +77,23 @@ public class Conta {
     @Override
     public String toString() {
         return "Agencia: " + this.agencia
-                + " Número: " + this.numeroConta
+                + " Número: " + this.numero
                 + " Saldo: " + this.saldo
                 + " Status: " + this.status;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Conta outraConta = (Conta) obj;
+        if (agencia.contains(outraConta.agencia) && numero.contains(outraConta.numero)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(agencia, numero);
     }
 }
